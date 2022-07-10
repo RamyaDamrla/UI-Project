@@ -12,22 +12,39 @@
 
 	
 			$.ajax("../src/data/products.json",{
-				success: function (data){
-					console.log(data)
-					$.each(data, function (index, item) {
-						$(".row").append("<div class='card' style='width:300px'><br/>"+
-													"<div class='card-header'><b>NAME:</b>"+item.name+"</div>" +
-													"<div class='card-body'>" +
-														"<img  class='card-img-top' src='item.picture' width='100px' height='100px'/>"+
-														"<div class='align-vertical'>"+"<p class='card-text'><b>PRICE:</b>"+item.price+"</p>" + "<p class='card-text'><b>OLD PRICE:</b>"+item.oldPrice+"</p>"+ "<p class='card-text'><b>SAVINGS:</b>"+item.savings+"</p>"+"</div>"+
-														"<p class='card-text'><b>SIZE:</b>" +item.size+"</p>" + 
-													"</div>" +
-												"</div>");
-                	});
-				}	
-			})
+				success: function (data)
+				{
+					var html = "";
+					data.forEach(function(a,i) { 
+									if(i == 0){
+										//add start row 
+										html+= '<div class="row">'
+									}
+									html += `      
+									<div class="col-4">
+										<div class="card" style="width:20em;text-align:center;display:inline-block;">
+											<img class="imagee" src="cardIcon.png" alt="image" height="200" width="200" style="border-radius:.60rem;">
+											<div class="card-body">
+											<b>`+a.name+`</b><br>
+											<i class="fa fa-car"></i>
+											<p class="card-text"><b>PRICE:</b>`+a.price+` <strike>`+a.oldPrice+`</strike><br/>
+												<b>You Save:</b> `+a.savings+`
+											</p>
+											</div>
+										</div><br/>
+									</div>`;
+									if(i!=0 && i%5 == 0){
 
-	
+										// add end of row ,and start new row on every 5 elements
+										html += '</div><div class="row">'
+									}
+																		
+									
+								});
+								$('#msgs').append(`<div>`+html+`</div>`);
+				
+				}
+			});
 	 
 	</script>
 </head>
@@ -36,10 +53,7 @@
       <div id="body">
       <div id="header">
 		<center>MY HEADER</center></div>
-      <div class="container">
-		<div class="row"></div>
-	 
-	  </div>
+		<div id="msgs" class="container"></div>
 	  
       <div id="footer"><center>MY FOOTER</center></div>
     </div>
